@@ -8,6 +8,9 @@ end
 return {
     command = "license [lcs]",
     description = "Create a license file",
+    positional_args = {
+        lcs = "Type license: mit, apache2"
+    },
     options = {
         {short = "y", long = "year", description = "Year"},
         {short = "o", long = "owner", description = "Owner name"},

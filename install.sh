@@ -5,6 +5,7 @@ DEST_SRC="/usr/share/lum"
 rm -rf $DEST_SRC
 cp -r ./lum $DEST_SRC
 cp ./uninstall.sh $DEST_SRC/uninstall.sh
+chmod 777 $DEST_SRC/uninstall.sh
 echo "Copied lum folder to $DEST_SRC"
 cd $DEST_SRC && luarocks install lummander
 echo "Installed dependencies"

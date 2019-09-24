@@ -26,8 +26,13 @@ cd lum
 sudo ./install.sh
 ```
 
+## Using cURL
+```bash
+curl -o install_lum.sh https://raw.githubusercontent.com/desvelao/lum/master/install_curl.sh && sudo ./install_lum.sh
+```
+
 # Uninstall
-Go to lum folder and execute unistal.sh
+Go to lum folder and execute uninstall.sh
 
 ```
 sudo ./uninstall.sh

@@ -1,7 +1,7 @@
 return {
     command = "pushmit [message]",
     description = "Git add && commit && push",
-    alias = {"apm"},
+    alias = {"apm", "acp"},
     positional_args = {
         message = {
             description = "Message to commit",

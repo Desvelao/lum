@@ -9,7 +9,7 @@ local lum = Lummander.new{
     author = "Desvelao^^",
     description = "CLI to help developers with git, npm, init nodejs or luarocks projects",
     theme = "acid",
-    root_path = "/home/toni/Proyectos/lum/lum",
+    root_path = lum_path,
     flag_prevent_help = false,
     devmode = false
 }

@@ -15,6 +15,8 @@ cd lua-5.3.5
 make linux test
 ```
 
+- Install [Luarocks](https://luarocks.org/#quick-start)
+
 # Install
 Clone this repository and execute install.sh with superuser permissions
 
@@ -29,4 +31,10 @@ Go to lum folder and execute unistal.sh
 
 ```
 sudo ./uninstall.sh
+```
+
+or
+
+```bash
+lum uninstall
 ```

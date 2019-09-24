@@ -1,2 +1,0 @@
-#!/bin/sh
-lua5.3 ~/Proyectos/lum/lum/lum.lua "$@"

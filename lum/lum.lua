@@ -32,9 +32,13 @@ end
 
 lum.methods = {}
 function lum.methods.mkdir(dir)
-    print(lum.colorizer.yellow("Creating directory..."))
+    lum.methods.print("Creating directory...")
     lum.lfs.mkdir(dir)
-    print(lum.colorizer.yellow("Created: ".. dir))
+    lum.methods.print("Created: ".. dir)
+end
+
+function lum.methods.print(message)
+    print(lum.colorizer.yellow(message))
 end
 
 lum:commands_dir("commands")

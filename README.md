@@ -28,7 +28,7 @@ sudo ./install.sh
 
 ## Using cURL
 ```bash
-curl -o install_lum.sh https://raw.githubusercontent.com/desvelao/lum/master/install_curl.sh && sudo ./install_lum.sh
+curl -o install_lum.sh https://raw.githubusercontent.com/desvelao/lum/master/install_lum_with_curl.sh && chmod 777 install_lum.sh && sudo ./install_lum.sh
 ```
 
 # Uninstall

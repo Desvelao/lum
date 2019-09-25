@@ -24,4 +24,4 @@ echo "Created a executable on $EXECUTABLE"
 chmod 777 $EXECUTABLE
 echo "Removing lum folder"
 error_exit "cd $ORIGIN_PATH && rm -rf lum" "Could't remove repository cloned"
-echo "Instalation susccess. You can use lum now. Execute lum command to see help"
+echo "Instalation success. You can use lum now. Execute lum command to see help"

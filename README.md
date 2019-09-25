@@ -21,14 +21,14 @@ make linux test
 
 Using cURL:
 ```bash
-sh -c "$(curl https://raw.githubusercontent.com/desvelao/lum/master/install.sh)" 
+sudo sh -c "$(curl https://raw.githubusercontent.com/desvelao/lum/master/install.sh)" 
 ```
 
 # Uninstall
 Go to lum folder and execute uninstall.sh
 
 ```
-sudo ./uninstall.sh
+sudo sh ./uninstall.sh
 ```
 
 or

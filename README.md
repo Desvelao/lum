@@ -18,17 +18,10 @@ make linux test
 - Install [Luarocks](https://luarocks.org/#quick-start)
 
 # Install
-Clone this repository and execute install.sh with superuser permissions
 
-```
-https://github.com/Desvelao/lum.git
-cd lum
-sudo ./install.sh
-```
-
-## Using cURL
+Using cURL:
 ```bash
-curl -o install_lum.sh https://raw.githubusercontent.com/desvelao/lum/master/install_lum_with_curl.sh && chmod 777 install_lum.sh && sudo ./install_lum.sh
+sh -c "$(curl https://raw.githubusercontent.com/desvelao/lum/master/install.sh)" 
 ```
 
 # Uninstall

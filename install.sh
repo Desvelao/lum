@@ -6,11 +6,12 @@ error_exit(){
      exit 1
   }
 }
+EXECUTABLE="/usr/bin/lum"
+DEST_SRC="/usr/share/lum"
+ORIGIN_PATH="$PWD"
 echo "Cloning repository"
 error_exit "git clone https://github.com/Desvelao/lum.git" "Couldn't clone lum repository"
 echo "Installing lum"
-EXECUTABLE="/usr/bin/lum"
-DEST_SRC="/usr/share/lum"
 rm -rf $DEST_SRC || true
 error_exit "cp -r lum/lum $DEST_SRC" "Cannot copy lum src to $DEST_SRC"
 error_exit "cp lum/uninstall.sh $DEST_SRC/uninstall.sh" "Couldn't uninstall.sh to $DEST_SRC"
@@ -22,5 +23,5 @@ echo "lua5.3 -e 'lum_path=\"$DEST_SRC\";package.path=\"$DEST_SRC/?.lua;$DEST_SRC
 echo "Created a executable on $EXECUTABLE"
 chmod 777 $EXECUTABLE
 echo "Removing lum folder"
-error_exit "rm -rf lum" "Could't remove repository cloned"
+error_exit "cd $ORIGIN_PATH && rm -rf lum" "Could't remove repository cloned"
 echo "Instalation susccess. You can use lum now. Execute lum command to see help"

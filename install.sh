@@ -22,5 +22,5 @@ echo "lua5.3 -e 'lum_path=\"$DEST_SRC\";package.path=\"$DEST_SRC/?.lua;$DEST_SRC
 echo "Created a executable on $EXECUTABLE"
 chmod 777 $EXECUTABLE
 echo "Removing lum folder"
-error_exit "cd .. && rm -rf lum" "Could't remove repository cloned"
+error_exit "rm -rf lum" "Could't remove repository cloned"
 echo "Instalation susccess. You can use lum now. Execute lum command to see help"

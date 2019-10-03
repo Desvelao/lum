@@ -12,7 +12,6 @@ return {
     action = function(parsed, command, lum)
         local tag, push = require('run-commands').tag, require('run-commands').push
         lum:execute(tag(parsed.tag, parsed.message), print)
-        lum:execute(commit(parsed.message), print)
         lum:execute(push(parsed.remote, parsed.tag), print)
     end
 }

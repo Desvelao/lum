@@ -1,11 +1,11 @@
 return {
-    command = "pushmit [message]",
+    command = "push [message]",
     description = "Git add && commit && push",
-    alias = {"apm", "acp"},
+    alias = {"acp"},
     positional_args = {
         message = {
             description = "Message to commit",
-            default = "Commit using Luc"
+            default = "Commit using Lum"
         }
     },
     options = {

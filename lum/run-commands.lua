@@ -27,6 +27,7 @@ return {
     npminit = npminit,
     gitinit = gitinit,
     gitbranch = gitbranch,
+    currentgitbranch = currentgitbranch,
     luarocksinit = luarocksinit,
     ldoc = ldoc,
     cd = cd

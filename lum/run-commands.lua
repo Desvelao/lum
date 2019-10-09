@@ -14,6 +14,7 @@ local tag = function(version, message) return "git tag -a " .. version .. " -m \
 local npminit = function(flag) return "npm init " .. ((flag and "-y") or " ") end
 local gitinit = function() return "git init" end
 local gitbranch = function() return "git branch" end
+local currentgitbranch = function() return "git rev-parse --abbrev-ref HEAD" end
 local luarocksinit = function() return "luarocks init" end
 local ldoc = function(dir) return "ldoc -d docs -f markdown ./" .. dir end
 local cd = function(dir) return "cd " .. dir end

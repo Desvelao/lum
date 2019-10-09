@@ -8,11 +8,6 @@ return {
         },
         enviorement = "Enviorement: nodejs/luarocks"
     },
-    -- hide = true,
-    options = {
-        -- {short = "p", long = "path", description = "Set a path", type = "flag", default=false},
-        -- {short = "b", long = "bat", description = "Extension .bat (default .cmd)", type = "flag", default="data"},
-    },
     action = function(parsed, command, lum)
         local npminit, gitinit = require('run-commands').npminit, require('run-commands').gitinit
         local luarocksinit, cd = require('run-commands').luarocksinit, require('run-commands').cd

@@ -19,8 +19,9 @@ return {
         --     lum.theme.cli.title("Array: "..value)
         -- end)
         -- error("my error")
-        for k,v in pairs(command.arguments) do
-            print(k,v.default)
-        end
+        -- lum:execute("git branch")
+        -- for k,v in pairs(command.arguments) do
+        --     print(k,v.default)
+        -- end
     end
 }

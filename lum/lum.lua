@@ -30,6 +30,10 @@ function lum:execute(command, callback)
     return execute(self, command, callback)
 end
 
+function lum:execute_silent(command, callback)
+    return execute(self, command, callback)
+end
+
 lum.methods = {}
 function lum.methods.mkdir(dir)
     lum.methods.print("Creating directory...")

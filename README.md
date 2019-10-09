@@ -17,6 +17,13 @@ make linux test
 
 - Install [Luarocks](https://luarocks.org/#quick-start)
 
+- Git
+- NPM
+- [Ldoc](https://stevedonovan.github.io/ldoc/) (optional for run ldoc command)
+    ```bash
+    luarocks install ldoc
+    ```
+
 # Install
 
 Using cURL:

@@ -7,6 +7,7 @@ local lum = Lummander.new{
     title = "lum CLI",
     tag = "lum",
     author = "Desvelao^^",
+    version = "0.1.0-09/10/19",
     description = "CLI to help developers with git, npm, init nodejs or luarocks projects",
     theme = "acid",
     root_path = lum_path,

@@ -1,5 +1,3 @@
--- package.path = '/home/toni/.luarocks/share/lua/5.3/?.lua;/home/toni/.luarocks/share/lua/5.3/?/init.lua;/home/toni/Proyectos/lum/lum/?/init.lua;/home/toni/Proyectos/lum/lum/?.lua;' .. package.path
--- package.cpath = '/usr/local/lib/lua/5.3/?.so;' .. package.cpath
 local Lummander = require "lummander"
 local pack = pack or table.pack
 

@@ -33,7 +33,7 @@ sudo sh -c "$(curl https://raw.githubusercontent.com/desvelao/lum/master/install
 
 Development build
 ```bash
-sudo sh -c "$(curl https://raw.githubusercontent.com/desvelao/lum/master/install.sh) dev" 
+sudo sh -c "LUM_ENV=\"dev\";$(curl https://raw.githubusercontent.com/desvelao/lum/master/install.sh)" 
 ```
 
 # Uninstall

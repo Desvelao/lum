@@ -14,7 +14,7 @@ return {
             return require("lum_run")
         end):pass(function (scripts)
             if(parsed.command and scripts[parsed.command]) then
-                print(lum.chalk.yellow("> ".. lum.name .. " " .. parsed.command))
+                print(lum.chalk.yellow("> ".. lum.tag .. " " .. parsed.command))
                 lum:execute(scripts[parsed.command], print)
             else
                 lum.theme.primary("Scripts:")

@@ -31,6 +31,11 @@ Using cURL:
 sudo sh -c "$(curl https://raw.githubusercontent.com/desvelao/lum/master/install.sh)" 
 ```
 
+Development build
+```bash
+sudo sh -c "$(curl https://raw.githubusercontent.com/desvelao/lum/master/install.sh) dev" 
+```
+
 # Uninstall
 Go to lum folder and execute uninstall.sh
 

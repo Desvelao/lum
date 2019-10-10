@@ -20,7 +20,7 @@ return {
             lum:execute(cd(parsed.name) .. " && " .. luarocksinit(),print)
             lum:execute(cd(parsed.name) .. " && " .. gitinit(),print)
         else
-            print(lum.colorizer.yellow("Enviorements: ") .. "nodejs, luarocks")
+            print(lum.chalk.yellow("Enviorements: ") .. "nodejs, luarocks")
         end
     end
 }

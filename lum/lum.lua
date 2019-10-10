@@ -7,7 +7,7 @@ local lum = Lummander.new{
     title = "lum CLI",
     tag = "lum",
     author = "Desvelao^^",
-    version = "0.1.0-09/10/19",
+    version = "0.1.0-10/10/19",
     description = "CLI to help developers with git, npm, init nodejs or luarocks projects",
     theme = "acid",
     root_path = lum_path,
@@ -21,13 +21,13 @@ function lum.print(mode, text)
     if(mode == "success") then mode = "green"
     elseif(mode == "error") then mode = "red"
     else return error("Log mode is not valid: ".. mode) end
-    print(Lummander.colorizer[mode](text))
+    print(Lummander.chalk[mode](text))
 end
 
 local execute = lum.execute
 
 function lum:execute(command, callback)
-    print(self.colorizer.yellow(command))
+    print(self.chalk.yellow(command))
     return execute(self, command, callback)
 end
 
@@ -43,7 +43,7 @@ function lum.methods.mkdir(dir)
 end
 
 function lum.methods.print(message)
-    print(lum.colorizer.yellow(message))
+    print(lum.chalk.yellow(message))
 end
 
 lum:commands_dir("commands")

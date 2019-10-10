@@ -14,6 +14,9 @@ return {
         {short = "b", long = "bat", description = "Extension .bat (default .cmd)", type = "flag", default="data"},
     },
     action = function(parsed, command, lum)
+        parsed:print()
+        local chalk = require"chalk"
+        print(chalk.style('red bgblue')('Hi'))
         -- parsed:print()
         -- parsed.array:for_each(function(value, index, array)
         --     lum.theme.cli.title("Array: "..value)

@@ -5,7 +5,8 @@ return {
         local current_dir = lum.lfs.currentdir()
         package.path = current_dir.."/?.lua;"..package.path
         lum.pcall(function()
-            local scripts = require("lum_run")
+            return require("lum_run")
+        end):pass(function (scripts)
             if(parsed.command and scripts[parsed.command]) then
                 lum:execute(scripts[parsed.command], print)
             else
@@ -15,7 +16,7 @@ return {
                 end
             end
         end):fail(function(err)
-            lum.theme.error(err)
+            lum.theme.error("It didn't find lua_run.lua file")
         end)
     end
 }

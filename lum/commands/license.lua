@@ -1,8 +1,8 @@
-local util = require("lummander.utils")
+local ftable = require("f.table")
 
 function showLicenses(lum)
     local licenses = {'mit', 'apache2'}
-    lum.theme.cli.text('Licenses avaliables: '.. util.table.join(licenses, ', '))
+    lum.theme.cli.text('Licenses avaliables: '.. ftable.join(licenses, ', '))
 end
 
 return {

@@ -9,7 +9,7 @@ error_exit(){
 EXECUTABLE="/usr/bin/lum"
 DEST_SRC="/usr/share/lum"
 ORIGIN_PATH="$PWD"
-LUM_ENV=$([ "$LUM_ENV" == "dev" ] && echo "--server=https://luarocks.org/dev" || echo "")
+LUM_ENV=$([ "$LUM_ENV" = "dev" ] && echo "--server=https://luarocks.org/dev" || echo "")
 echo "Cloning repository"
 error_exit "git clone https://github.com/Desvelao/lum.git" "Couldn't clone lum repository"
 echo "Installing lum"

@@ -44,5 +44,9 @@ function lum.methods.print(message)
     print(lum.chalk.yellow(message))
 end
 
+function lum.read(message)
+    return io.read("*l")
+end
+
 lum:commands_dir("commands")
     :parse(arg)

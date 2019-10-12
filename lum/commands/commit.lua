@@ -1,6 +1,6 @@
 return {
     command = "commit [message]",
-    alias = {"ac"},
+    alias = {"ac", "c"},
     positional_args = {
         message = {
             description = "Message to commit",

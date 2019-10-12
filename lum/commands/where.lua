@@ -1,5 +1,5 @@
 return {
-    command = "whereis",
+    command = "where",
     description = "Where is lum installed",
     action = function(parsed, command, lum)
         print('lum src is installed on: /usr/share/lum')

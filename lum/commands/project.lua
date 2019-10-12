@@ -1,7 +1,7 @@
 return {
     command = "project <enviorement> <name>",
     description = "Create a new project folder and init npm/git/luarocks. Env: nodejs, luarocks",
-    alias = {"p", "new"},
+    alias = {"new"},
     positional_args = {
         name = {
             description = "Project Name"

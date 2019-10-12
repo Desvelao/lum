@@ -1,10 +1,15 @@
 # What is lum?
-lum is a commandline application to developers can use easily some commands of npm/git/luarocks and init new projects.
+lum is a commandline application to developers can use easily some commands of npm/git/luarocks and init new projects. Help with developer workflow.
 
 Allow with one only command:
 - git add && commit & push
 - git tag and push
 - create new folder && npm init && git init
+- create a `lum_run.lua` file with custom scripts to run with `lum run <script_name>`
+- create LICENSE.md file
+
+**Only for linux.**
+
 # Requirements
 - Install Lua 5.3
 
@@ -25,6 +30,8 @@ make linux test
     ```
 
 # Install
+
+**Only for linux.**
 
 Using cURL:
 ```bash
@@ -47,4 +54,25 @@ or
 
 ```bash
 lum uninstall
+```
+
+# Run scripts
+Create a `lum_run.lua` file in current directory that returns a table with pairs keys-value. To activate some script use `lum run <script_name>` where `<script_name>` is a key of return table. You can create a `lum_run.lua` file with `lum init`.
+
+```lua
+-- lum_run.lua
+return {
+    myscript = "echo \"Echoing this with lum run myscript\"",
+    otherscript = function(app) -- can be a function with cli/app as first argument
+        print("Hi from a function script")
+    end
+}
+```
+
+Run scripts with: `lum run <script_name>`
+```bash
+$ lum run myscript
+Echoing this with lum run myscript
+$ lum run otherscript
+Hi from a function script
 ```

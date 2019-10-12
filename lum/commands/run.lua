@@ -14,12 +14,18 @@ return {
             return require("lum_run")
         end):pass(function (scripts)
             if(parsed.command and scripts[parsed.command]) then
-                print(lum.chalk.yellow("> ".. lum.tag .. " " .. parsed.command))
-                lum:execute(scripts[parsed.command], print)
+                local script = scripts[parsed.command]
+                if(type(script) == "string") then
+                    print(lum.chalk.yellow("> ".. lum.tag .. " run " .. parsed.command))
+                    lum:execute(script, print)
+                elseif(type(script) == "function") then
+                    print(lum.chalk.yellow("> ".. lum.tag .. " run " .. parsed.command))
+                    script(lum)
+                end
             else
                 lum.theme.primary("Scripts:")
                 for k,v in pairs(scripts) do
-                    lum.theme.secondary("  " ..k .. ": ".. v)
+                    lum.theme.secondary("  " ..k .. ": ".. tostring(v))
                 end
             end
         end):fail(function(err)

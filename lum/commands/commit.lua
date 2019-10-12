@@ -7,7 +7,6 @@ return {
             default = "Commit with lum"
         }
     },
-    alias = {"ap"},
     description = "Git add && commit",
     action = function(parsed, command, lum)
         local add, commit = require('run-commands').add, require('run-commands').commit

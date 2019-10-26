@@ -9,6 +9,7 @@ return {
     description = "Run scripts commands like npm run. Require a lum_run.lua file in current directory",
     action = function(parsed, command, lum)
         local current_dir = lum.lfs.currentdir()
+        local user_lum_dir = lum.methods.lum_home()
         local original_path = package.path
         local scripts = {}
         local function add_to_scripts(mode)
@@ -27,9 +28,11 @@ return {
 
             lum.pcall(function() -- try to load home/<username>/.lum lum_run.lua
                 package.loaded["lum_run"] = nil -- unload from require chache the previous lu_run.lua file
-                package.path = lum.methods.lum_home() .. "/?.lua;" .. original_path
+                package.path = user_lum_dir .. "/?.lua;" .. original_path
                 return require("lum_run")
             end):pass(add_to_scripts("[/.lum]")):done()
+            local ftable = require("f.table")
+            if(ftable.length(scripts) == 0) then error() end
             return scripts
         end):pass(function (scripts)
             if(parsed.command and scripts[parsed.command]) then
@@ -48,7 +51,7 @@ return {
                 end
             end
         end):fail(function(err)
-            lum.theme.error("It didn't find lua_run.lua file. You can create one with `lum init`")
+            lum.theme.error("lua_run.lua file not found (in current directory or " .. user_lum_dir .."). Create one in current folder with `lum init`")
         end)
     end
 }

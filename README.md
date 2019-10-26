@@ -62,19 +62,29 @@ Create a `lum_run.lua` file in current directory that returns a table with pairs
 ```lua
 -- lum_run.lua
 return {
-    myscript = "echo \"Echoing this with lum run myscript\"",
-    otherscript = function(app, args) -- can be a function
+    my_script = "echo \"Echoing this with lum run myscript\"",
+    function_script = function(app, args) -- can be a function
         -- app: cli instance
         -- args: rest of arguments passed after command script name. It's a table.
         print("Hi from a function script")
-    end
+    end,
+    table_script_run_string = {
+        description = "...", -- set description
+        run = "echo \"Echo from a script as table with run string\"" -- string/function. If string, description is placed to this
+    },
+    table_script_run_function = {
+        description = "...", -- set description
+        run = function(app, args)
+            -- script process
+        end,
+    }
 }
 ```
 
 Run scripts with: `lum run <script_name>`
 ```bash
-$ lum run myscript
-Echoing this with lum run myscript
-$ lum run otherscript
+$ lum run my_script
+Echoing this with lum run my_script
+$ lum run function_script
 Hi from a function script
 ```

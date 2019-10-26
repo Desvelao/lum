@@ -17,7 +17,27 @@ return {
             local function add_to_scripts(mode)
                 return function(scp)
                     for k,v in pairs(scp) do
-                        if(scripts[k] == nil) then scripts[k] = {mode = mode or "", command = v}; somescript = true end
+                        if(scripts[k] == nil) then
+                            scripts[k] = {mode = mode or ""}
+                            if(type(v) == "string") then
+                                scripts[k].description = v
+                                scripts[k].run = function(app, args) lum:execute(v, print) end
+                            elseif(type(v) == "function") then
+                                scripts[k].description = ""
+                                scripts[k].run = v
+                            elseif(type(v) == "table") then
+                                scripts[k].description = v.description or ""
+                                if(type(v.run) == "string") then
+                                    scripts[k].description = v.run
+                                    scripts[k].run = function(app, args) lum:execute(v.run, print) end
+                                elseif(type(v.run) == "function") then
+                                    scripts[k].run = v.run
+                                else
+                                    error("Error loading lum_run.lua: .run should be a string or function")
+                                end
+                            end
+                            somescript = true
+                        end
                     end
                 end
             end
@@ -31,27 +51,23 @@ return {
                 package.path = user_lum_dir .. "/?.lua;"
                 return require("lum_run")
             end):pass(add_to_scripts("[/.lum]")):done()
-            if(not somescript) then error() end
+
+            if(not somescript) then error("lua_run.lua file not found (in current directory or " .. user_lum_dir .."). Create one in current folder with `lum init`\nOr there aren't scripts defined") end
             return scripts
         end):pass(function (scripts)
             package.path = original_path
             if(parsed.command and scripts[parsed.command]) then
-                local script = scripts[parsed.command].command
-                if(type(script) == "string") then
-                    print(lum.chalk.yellow("> ".. lum.tag .. " run " .. parsed.command))
-                    lum:execute(script, print)
-                elseif(type(script) == "function") then
-                    print(lum.chalk.yellow("> ".. lum.tag .. " run " .. parsed.command))
-                    script(lum, parsed.args)
-                end
+                local script = scripts[parsed.command]
+                print(lum.chalk.yellow("> ".. lum.tag .. " run " .. parsed.command))
+                script.run(lum, parsed.args)
             else
                 lum.theme.primary("Scripts:")
                 for k,v in pairs(scripts) do
-                    lum.theme.secondary("  " ..k .. ": " ..tostring(v.command) .. " "..(v.mode))
+                    lum.theme.secondary("  " ..k .. ": " ..tostring(v.description) .. " "..(v.mode))
                 end
             end
         end):fail(function(err)
-            lum.theme.error("lua_run.lua file not found (in current directory or " .. user_lum_dir .."). Create one in current folder with `lum init`")
+            lum.theme.error(err)
         end)
     end
 }

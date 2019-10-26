@@ -11,9 +11,11 @@ return {
         local current_dir = lum.lfs.currentdir()
         local original_path = package.path
         local scripts = {}
-        local function add_to_scripts(scp)
-            for k,v in pairs(scp) do
-                if(scripts[k] == nil) then scripts[k] = v end
+        local function add_to_scripts(mode)
+            return function(scp)
+                for k,v in pairs(scp) do
+                    if(scripts[k] == nil) then scripts[k] = {mode = mode or "", command = v} end
+                end
             end
         end
         lum.pcall(function()   
@@ -21,17 +23,17 @@ return {
             lum.pcall(function() -- try to load local lum_run.lua
                 package.path = current_dir.."/?.lua;" .. original_path
                 return require("lum_run")
-            end):pass(add_to_scripts):done()
+            end):pass(add_to_scripts("[./]")):done()
 
             lum.pcall(function() -- try to load home/<username>/.lum lum_run.lua
                 package.loaded["lum_run"] = nil -- unload from require chache the previous lu_run.lua file
                 package.path = lum.methods.lum_home() .. "/?.lua;" .. original_path
                 return require("lum_run")
-            end):pass(add_to_scripts):done()
+            end):pass(add_to_scripts("[/.lum]")):done()
             return scripts
         end):pass(function (scripts)
             if(parsed.command and scripts[parsed.command]) then
-                local script = scripts[parsed.command]
+                local script = scripts[parsed.command].command
                 if(type(script) == "string") then
                     print(lum.chalk.yellow("> ".. lum.tag .. " run " .. parsed.command))
                     lum:execute(script, print)
@@ -42,7 +44,7 @@ return {
             else
                 lum.theme.primary("Scripts:")
                 for k,v in pairs(scripts) do
-                    lum.theme.secondary("  " ..k .. ": ".. tostring(v))
+                    lum.theme.secondary("  " ..k .. ": " ..tostring(v.command) .. " "..(v.mode))
                 end
             end
         end):fail(function(err)

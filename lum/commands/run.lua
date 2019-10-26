@@ -62,7 +62,7 @@ return {
                 script.run(lum, parsed.args)
             else
                 lum.theme.primary("Scripts:")
-                for k,v in pairs(scripts) do
+                for k,v in lum.methods.ordered_pairs(scripts) do
                     lum.theme.secondary("  " ..k .. ": " ..tostring(v.description) .. " "..(v.mode))
                 end
             end

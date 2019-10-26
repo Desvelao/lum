@@ -52,6 +52,20 @@ function lum.methods.lum_home()
     return lum.methods.get_home() .. "/.lum"
 end
 
+function lum.methods.ordered_pairs (t)
+    local sorted_t = {}
+    for k,v in pairs(t) do
+      table.insert(sorted_t, k)
+    end
+    table.sort(sorted_t)
+    local i = 0
+    local n = #sorted_t
+    return function ()
+            i = i + 1
+            if i <= n then return sorted_t[i], t[sorted_t[i]] end
+    end
+end
+
 function lum.read(message)
     return io.read("*l")
 end

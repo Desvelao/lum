@@ -1,5 +1,5 @@
 return {
-    command = "run [command]",
+    command = "run [command] [...args]",
     positional_args = {
         command = {
             description = "Script to execute",
@@ -42,7 +42,7 @@ return {
                     lum:execute(script, print)
                 elseif(type(script) == "function") then
                     print(lum.chalk.yellow("> ".. lum.tag .. " run " .. parsed.command))
-                    script(lum)
+                    script(lum, parsed.args)
                 end
             else
                 lum.theme.primary("Scripts:")

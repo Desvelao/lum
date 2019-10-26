@@ -38,7 +38,7 @@ Using cURL:
 sudo sh -c "$(curl https://raw.githubusercontent.com/desvelao/lum/master/install.sh)" 
 ```
 
-Development build
+Development build - DEPRECATED
 ```bash
 sudo sh -c "LUM_ENV=\"dev\";$(curl https://raw.githubusercontent.com/desvelao/lum/master/install.sh)" 
 ```
@@ -63,7 +63,9 @@ Create a `lum_run.lua` file in current directory that returns a table with pairs
 -- lum_run.lua
 return {
     myscript = "echo \"Echoing this with lum run myscript\"",
-    otherscript = function(app) -- can be a function with cli/app as first argument
+    otherscript = function(app, args) -- can be a function
+        -- app: cli instance
+        -- args: rest of arguments passed after command script name. It's a table.
         print("Hi from a function script")
     end
 }

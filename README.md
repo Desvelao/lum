@@ -2,8 +2,8 @@
 lum is a commandline application to developers can use easily some commands of npm/git/luarocks and init new projects. Help with developer workflow.
 
 Allow with one only command:
-- git add && commit & push
-- git tag and push
+- git add && commit && push
+- git tag && push
 - create new folder && npm init && git init
 - create a `lum_run.lua` file with custom scripts to run with `lum run <script_name>`
 - create LICENSE.md file
@@ -57,7 +57,7 @@ lum uninstall
 ```
 
 # Run scripts
-Create a `lum_run.lua` file in current directory that returns a table with pairs keys-value. To activate some script use `lum run <script_name>` where `<script_name>` is a key of return table. You can create a `lum_run.lua` file with `lum init`.
+Create a `lum_run.lua` file in current directory that returns a table with pairs keys-value. To activate some script use `lum run <script_name>` where `<script_name>` is a key of return table. You can create a `lum_run.lua` file with `lum init`. You can create a `lum_run.lua` under `.lum` folder in your home directory to add global run scripts.
 
 ```lua
 -- lum_run.lua

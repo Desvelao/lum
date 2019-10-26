@@ -5,7 +5,7 @@ local lum = Lummander.new{
     title = "lum CLI",
     tag = "lum",
     author = "Desvelao^^",
-    version = "0.1.0-10/10/19",
+    version = "0.1.0-26/10/19",
     description = "CLI to help developers with git, npm, init nodejs or luarocks projects",
     theme = "acid",
     root_path = lum_path,
@@ -42,6 +42,14 @@ end
 
 function lum.methods.print(message)
     print(lum.chalk.yellow(message))
+end
+
+function lum.methods.get_home()
+    return lum:execute_silent("echo ${HOME}"):gsub("\n","")
+end
+
+function lum.methods.lum_home()
+    return lum.methods.get_home() .. "/.lum"
 end
 
 function lum.read(message)

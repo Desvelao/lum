@@ -9,9 +9,26 @@ return {
     description = "Run scripts commands like npm run. Require a lum_run.lua file in current directory",
     action = function(parsed, command, lum)
         local current_dir = lum.lfs.currentdir()
-        package.path = current_dir.."/?.lua;"..package.path
-        lum.pcall(function()
-            return require("lum_run")
+        local original_path = package.path
+        lum.pcall(function()   
+            local scripts = {}
+
+            lum.pcall(function() -- try to load local lum_run.lua
+                package.path = current_dir.."/?.lua;" .. original_path
+                return require("lum_run")
+            end):pass(function(scp)
+                scripts = scp
+            end):done()
+
+            lum.pcall(function() -- try to load home/<username>/.lum lum_run.lua
+                package.path = lum.methods.lum_home() .. "/?.lua;" .. original_path
+                return require("lum_run")
+            end):pass(function(scp)
+                for k,v in pairs(scp) do
+                    if(not scripts[k]) then scripts[k] = v end
+                end
+            end):done()
+            return scripts
         end):pass(function (scripts)
             if(parsed.command and scripts[parsed.command]) then
                 local script = scripts[parsed.command]

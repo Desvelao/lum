@@ -17,6 +17,9 @@ return {
         parsed:print()
         local chalk = require"chalk"
         print(chalk.style('red bgblue')('Hi'))
+        lum:execute("echo ${HOME}", print)
+        package.path = lum.methods.lum_home() .. "/?.lua;" ..package.path
+        print(package.path)
         -- parsed:print()
         -- parsed.array:for_each(function(value, index, array)
         --     lum.theme.cli.title("Array: "..value)

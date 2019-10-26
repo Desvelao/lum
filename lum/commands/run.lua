@@ -10,24 +10,24 @@ return {
     action = function(parsed, command, lum)
         local current_dir = lum.lfs.currentdir()
         local original_path = package.path
+        local scripts = {}
+        local function add_to_scripts(scp)
+            for k,v in pairs(scp) do
+                if(scripts[k] == nil) then scripts[k] = v end
+            end
+        end
         lum.pcall(function()   
-            local scripts = {}
 
             lum.pcall(function() -- try to load local lum_run.lua
                 package.path = current_dir.."/?.lua;" .. original_path
                 return require("lum_run")
-            end):pass(function(scp)
-                scripts = scp
-            end):done()
+            end):pass(add_to_scripts):done()
 
             lum.pcall(function() -- try to load home/<username>/.lum lum_run.lua
+                package.loaded["lum_run"] = nil -- unload from require chache the previous lu_run.lua file
                 package.path = lum.methods.lum_home() .. "/?.lua;" .. original_path
                 return require("lum_run")
-            end):pass(function(scp)
-                for k,v in pairs(scp) do
-                    if(not scripts[k]) then scripts[k] = v end
-                end
-            end):done()
+            end):pass(add_to_scripts):done()
             return scripts
         end):pass(function (scripts)
             if(parsed.command and scripts[parsed.command]) then

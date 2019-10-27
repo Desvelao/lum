@@ -74,29 +74,29 @@ LUA_INTERPETER="$LUAROCKS_LUA_INTERPETER" # same luarocks
 LUA_VERSION="$LUAROCKS_LUA_VERSION" # same luarocks
 CMD_INSTALL_DEPS="luarocks install $([ "$LUM_ENV" = "dev" ] && echo "--server=https://luarocks.org/dev" || echo "") --lua-version=$LUA_VERSION lummander"
 
-if [[ -z "$1" ]] ; then # get latest version
+if [ -z "$1" ] ; then # get latest version
   get_latest_version
   install "$LUM_LATEST_VERSION"
 
-elif [[ "$1" = "install" ]] ; then # get specified version or latest
+elif [ "$1" = "install" ] ; then # get specified version or latest
   get_latest_version
   install ${2:-"$LUM_LATEST_VERSION"}
 
-elif [[ "$1" = "update" ]] ; then # get specified version or latest
+elif [ "$1" = "update" ] ; then # get specified version or latest
   CURRENT_LUM_VERSION=$2
   get_latest_version
   echo "Current version: $CURRENT_LUM_VERSION"
   echo "Latest version: $LUM_LATEST_VERSION"
   CURRENT_LUM_VERSION="0.2.0"
   LUM_LATEST_VERSION="0.1.0.1"
-  if [[ "$CURRENT_LUM_VERSION" < "$LUM_LATEST_VERSION" ]] ; then
+  if [ "$CURRENT_LUM_VERSION" < "$LUM_LATEST_VERSION" ] ; then
     # install "$LUM_LATEST_VERSION"
     echo "Updated to $LUM_LATEST_VERSION"
   else 
     echo "You have last version: $LUM_LATEST_VERSION"
   fi
 
-elif [[ "$1" = "get_latest_version" ]] ; then # echo latest version
+elif [ "$1" = "get_latest_version" ] ; then # echo latest version
   get_latest_version
   echo $LUM_LATEST_VERSION
 

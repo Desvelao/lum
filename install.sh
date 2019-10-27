@@ -45,7 +45,7 @@ install(){
   echo "> Lum src: $LUM_LIBRARY"
   echo "> Lum executable: $LUM_BINARY"
   echo "> Lua version: $LUA_VERSION"
-  echo "> Lua version: ${LUM_VERSION:-"master"}"
+  echo "> Lum version: ${LUM_VERSION:-"master"}"
   echo "> Instalation success. You can use lum now. Execute lum command to see help"
 }
 

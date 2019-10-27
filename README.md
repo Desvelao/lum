@@ -38,11 +38,6 @@ Using cURL:
 sudo sh -c "$(curl https://raw.githubusercontent.com/desvelao/lum/master/install.sh)" 
 ```
 
-Development build - DEPRECATED
-```bash
-sudo sh -c "LUM_ENV=\"dev\";$(curl https://raw.githubusercontent.com/desvelao/lum/master/install.sh)" 
-```
-
 # Uninstall
 Go to lum folder and execute uninstall.sh
 

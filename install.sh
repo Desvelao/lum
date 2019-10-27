@@ -21,6 +21,41 @@ check_lua_version(){
   return 0
 }
 
+install(){
+  echo "Detected Lua version: $LUA_VERSION"
+  clone_repo $1
+  echo "> Installing lum"
+  rm -rf $LUM_LIBRARY || true # Remove last lum instalation
+  error_exit "cp -r lum/lum $LUM_LIBRARY" "Couldn't copy lum src to $LUM_LIBRARY"
+  error_exit "cp lum/install.sh $LUM_LIBRARY/install.sh" "Couldn't install.sh to $LUM_LIBRARY"
+  error_exit "cp lum/uninstall.sh $LUM_LIBRARY/uninstall.sh" "Couldn't uninstall.sh to $LUM_LIBRARY"
+  chmod 777 $LUM_LIBRARY/install.sh
+  chmod 777 $LUM_LIBRARY/uninstall.sh
+  echo "> Copied lum folder to $LUM_LIBRARY"
+  echo "> Installing dependencies"
+  error_exit "$CMD_INSTALL_DEPS" "Could't install dependencies. Is it installed Luarocks?"
+  echo "> Creating lum executable"
+  echo "$LUA_INTERPETER -e 'lum_path=\"$LUM_LIBRARY\";lum_env=\"$LUM_ENV\";package.path=\"$LUM_LIBRARY/?.lua;$LUM_LIBRARY/?/init.lua;$HOME/.luarocks/share/lua/$LUA_VERSION/?.lua;$HOME/.luarocks/share/lua/$LUA_VERSION/?/init.lua;/usr/local/share/lua/$LUA_VERSION/?.lua;/usr/local/share/lua/$LUA_VERSION/?/init.lua;\"..package.path;package.cpath=\"$HOME/.luarocks/lib/lua/$LUA_VERSION/?.so;/usr/local/lib/lua/$LUA_VERSION/?.so;\"..package.cpath' $LUM_LIBRARY/lum.lua \"\$@\"" > $LUM_BINARY
+  # echo "$LUA_INTERPETER -e 'lum_path=\"$LUM_LIBRARY\";lum_env=\"$LUM_ENV\";package.path=\"$LUM_LIBRARY/?.lua;$LUM_LIBRARY/?/init.lua;$HOME/.luarocks/share/lua/5.1/?.lua;$HOME/.luarocks/share/lua/5.1/?/init.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;$HOME/.luarocks/share/lua/5.2/?.lua;$HOME/.luarocks/share/lua/5.2/?/init.lua;/usr/local/share/lua/5.2/?.lua;/usr/local/share/lua/5.2/?/init.lua;$HOME/.luarocks/share/lua/5.3/?.lua;$HOME/.luarocks/share/lua/5.3/?/init.lua;/usr/local/share/lua/5.3/?.lua;/usr/local/share/lua/5.3/?/init.lua;\"..package.path;package.cpath=\"$HOME/.luarocks/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/?.so;$HOME/.luarocks/lib/lua/5.2/?.so;/usr/local/lib/lua/5.2/?.so$HOME/.luarocks/lib/lua/5.3/?.so;/usr/local/lib/lua/5.3/?.so;\"..package.cpath' $LUM_LIBRARY/lum.lua \"\$@\"" > $LUM_BINARY
+  echo "> Created a executable on $LUM_BINARY"
+  chmod 777 $LUM_BINARY
+  echo "> Removing lum folder"
+  error_exit "rm -rf $CURRENT_DIRECTORY/lum" "Could't remove repository cloned"
+  echo "> Lum src: $LUM_LIBRARY"
+  echo "> Lum executable: $LUM_BINARY"
+  echo "> Lua version: $LUA_VERSION"
+  echo "> Instalation success. You can use lum now. Execute lum command to see help"
+}
+
+clone_repo(){
+  echo "> Cloning repository"
+  error_exit "git clone $LUM_REPOSITORY $([ -z "$1" ] && echo "" || echo "--branch $1")" "Couldn't clone lum repository"
+}
+
+get_latest_version(){
+  LUM_LATEST_VERSION=$(curl --silent "https://api.github.com/repos/desvelao/lum/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^\"]+)".*/\1/')
+}
+
 # check_lua_version "lua" || check_lua_version "lua5.1" || check_lua_version "lua5.2" || check_lua_version "lua5.3"
 
 # if [ -z ${LUA_VERSION+x} ]; then
@@ -28,9 +63,9 @@ check_lua_version(){
 #   exit 1
 # fi
 
-EXECUTABLE="/usr/bin/lum"
-DEST_SRC="/usr/share/lum"
-ORIGIN_PATH="$PWD"
+LUM_BINARY="/usr/bin/lum"
+LUM_LIBRARY="/usr/share/lum"
+CURRENT_DIRECTORY="$PWD"
 LUM_ENV=${LUM_ENV:-"production"}
 LUM_REPOSITORY="https://github.com/Desvelao/lum.git"
 LUAROCKS_LUA_VERSION="$(luarocks config lua_version)"
@@ -39,25 +74,30 @@ LUA_INTERPETER="$LUAROCKS_LUA_INTERPETER" # same luarocks
 LUA_VERSION="$LUAROCKS_LUA_VERSION" # same luarocks
 CMD_INSTALL_DEPS="luarocks install $([ "$LUM_ENV" = "dev" ] && echo "--server=https://luarocks.org/dev" || echo "") --lua-version=$LUA_VERSION lummander"
 
-echo "Detected Lua version: $LUA_VERSION"
-echo "> Cloning repository"
-error_exit "git clone $LUM_REPOSITORY" "Couldn't clone lum repository"
-echo "> Installing lum"
-rm -rf $DEST_SRC || true # Remove last lum instalation
-error_exit "cp -r lum/lum $DEST_SRC" "Couldn't copy lum src to $DEST_SRC"
-error_exit "cp lum/uninstall.sh $DEST_SRC/uninstall.sh" "Couldn't uninstall.sh to $DEST_SRC"
-chmod 777 $DEST_SRC/uninstall.sh
-echo "> Copied lum folder to $DEST_SRC"
-echo "> Installing dependencies"
-error_exit "$CMD_INSTALL_DEPS" "Could't install dependencies. Is it installed Luarocks?"
-echo "> Creating lum executable"
-echo "$LUA_INTERPETER -e 'lum_path=\"$DEST_SRC\";lum_env=\"$LUM_ENV\";package.path=\"$DEST_SRC/?.lua;$DEST_SRC/?/init.lua;$HOME/.luarocks/share/lua/$LUA_VERSION/?.lua;$HOME/.luarocks/share/lua/$LUA_VERSION/?/init.lua;/usr/local/share/lua/$LUA_VERSION/?.lua;/usr/local/share/lua/$LUA_VERSION/?/init.lua;\"..package.path;package.cpath=\"$HOME/.luarocks/lib/lua/$LUA_VERSION/?.so;/usr/local/lib/lua/$LUA_VERSION/?.so;\"..package.cpath' $DEST_SRC/lum.lua \"\$@\"" > $EXECUTABLE
-# echo "$LUA_INTERPETER -e 'lum_path=\"$DEST_SRC\";lum_env=\"$LUM_ENV\";package.path=\"$DEST_SRC/?.lua;$DEST_SRC/?/init.lua;$HOME/.luarocks/share/lua/5.1/?.lua;$HOME/.luarocks/share/lua/5.1/?/init.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;$HOME/.luarocks/share/lua/5.2/?.lua;$HOME/.luarocks/share/lua/5.2/?/init.lua;/usr/local/share/lua/5.2/?.lua;/usr/local/share/lua/5.2/?/init.lua;$HOME/.luarocks/share/lua/5.3/?.lua;$HOME/.luarocks/share/lua/5.3/?/init.lua;/usr/local/share/lua/5.3/?.lua;/usr/local/share/lua/5.3/?/init.lua;\"..package.path;package.cpath=\"$HOME/.luarocks/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/?.so;$HOME/.luarocks/lib/lua/5.2/?.so;/usr/local/lib/lua/5.2/?.so$HOME/.luarocks/lib/lua/5.3/?.so;/usr/local/lib/lua/5.3/?.so;\"..package.cpath' $DEST_SRC/lum.lua \"\$@\"" > $EXECUTABLE
-echo "> Created a executable on $EXECUTABLE"
-chmod 777 $EXECUTABLE
-echo "> Removing lum folder"
-error_exit "rm -rf $ORIGIN_PATH/lum" "Could't remove repository cloned"
-echo "> Lum src: $DEST_SRC"
-echo "> Lum executable: $EXECUTABLE"
-echo "> Lua version: $LUA_VERSION"
-echo "> Instalation success. You can use lum now. Execute lum command to see help"
+if [[ -z "$1" ]] ; then # get latest version
+  get_latest_version
+  install "$LUM_LATEST_VERSION"
+
+elif [[ "$1" = "install" ]] ; then # get specified version or latest
+  get_latest_version
+  install ${2:-"$LUM_LATEST_VERSION"}
+
+elif [[ "$1" = "update" ]] ; then # get specified version or latest
+  CURRENT_LUM_VERSION=$2
+  get_latest_version
+  echo "Current version: $CURRENT_LUM_VERSION"
+  echo "Latest version: $LUM_LATEST_VERSION"
+  CURRENT_LUM_VERSION="0.2.0"
+  LUM_LATEST_VERSION="0.1.0.1"
+  if [[ "$CURRENT_LUM_VERSION" < "$LUM_LATEST_VERSION" ]] ; then
+    # install "$LUM_LATEST_VERSION"
+    echo "Updated to $LUM_LATEST_VERSION"
+  else 
+    echo "You have last version: $LUM_LATEST_VERSION"
+  fi
+
+elif [[ "$1" = "get_latest_version" ]] ; then # echo latest version
+  get_latest_version
+  echo $LUM_LATEST_VERSION
+
+fi

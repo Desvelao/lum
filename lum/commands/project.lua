@@ -13,12 +13,10 @@ return {
         local luarocksinit, cd = require('run-commands').luarocksinit, require('run-commands').cd
         if parsed.enviorement == "nodejs" then
             lum.methods.mkdir("./"..parsed.name)
-            lum:execute(cd(parsed.name) .. " && " .. npminit(true),print)
-            lum:execute(cd(parsed.name) .. " && " .. gitinit(),print)
+            lum:execute(cd(parsed.name) .. " && " .. npminit(true) .. " && " .. gitinit(),print)
         elseif parsed.enviorement == "luarocks" then
             lum.methods.mkdir("./"..parsed.name)
-            lum:execute(cd(parsed.name) .. " && " .. luarocksinit(),print)
-            lum:execute(cd(parsed.name) .. " && " .. gitinit(),print)
+            lum:execute(cd(parsed.name) .. " && " .. luarocksinit() .. " && " .. gitinit(),print)
         else
             print(lum.chalk.yellow("Enviorements: ") .. "nodejs, luarocks")
         end

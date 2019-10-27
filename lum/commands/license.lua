@@ -1,6 +1,6 @@
 local ftable = require("f.table")
 
-function showLicenses(lum)
+function show_licenses(lum)
     local licenses = {'mit', 'apache2'}
     lum.theme.cli.text('Licenses avaliables: '.. ftable.join(licenses, ', '))
 end
@@ -32,10 +32,10 @@ return {
                     lum.theme.error("Error ocurred saving LICENSE.md\n"..err)
                 end)
             end):fail(function(err)
-                showLicenses(lum)
+                show_licenses(lum)
             end)
         else
-            showLicenses(lum)
+            show_licenses(lum)
         end
     end
 }

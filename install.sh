@@ -90,7 +90,8 @@ elif [ "$1" = "update" ] ; then # get specified version or latest
   echo "Current version: $CURRENT_LUM_VERSION"
   echo "Latest version: $LUM_LATEST_VERSION"
   if [ "$CURRENT_LUM_VERSION" < "$LUM_LATEST_VERSION" ] ; then
-    # install "$LUM_LATEST_VERSION"
+    sleep 5
+    install "$LUM_LATEST_VERSION"
     echo "Updated to $LUM_LATEST_VERSION"
   else 
     echo "You have last version: $LUM_LATEST_VERSION"

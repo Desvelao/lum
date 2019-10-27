@@ -14,7 +14,7 @@ return {
         {short = "b", long = "bat", description = "Extension .bat (default .cmd)", type = "flag", default="data"},
     },
     action = function(parsed, command, lum)
-        print(lum_path)
+        print(lum.version)
         -- parsed:print()
         -- local chalk = require"chalk"
         -- print(chalk.style('red bgblue')('Hi'))

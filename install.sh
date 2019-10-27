@@ -37,25 +37,24 @@ install(){
   error_exit "$CMD_INSTALL_DEPS" "Could't install dependencies. Is it installed Luarocks?"
   echo "> Creating lum executable"
   echo "$LUA_INTERPETER -e 'lum_path=\"$LUM_LIBRARY\";lum_env=\"$LUM_ENV\";package.path=\"$LUM_LIBRARY/?.lua;$LUM_LIBRARY/?/init.lua;$HOME/.luarocks/share/lua/$LUA_VERSION/?.lua;$HOME/.luarocks/share/lua/$LUA_VERSION/?/init.lua;/usr/local/share/lua/$LUA_VERSION/?.lua;/usr/local/share/lua/$LUA_VERSION/?/init.lua;\"..package.path;package.cpath=\"$HOME/.luarocks/lib/lua/$LUA_VERSION/?.so;/usr/local/lib/lua/$LUA_VERSION/?.so;\"..package.cpath' $LUM_LIBRARY/lum.lua \"\$@\"" > $LUM_BINARY
-  # echo "$LUA_INTERPETER -e 'lum_path=\"$LUM_LIBRARY\";lum_env=\"$LUM_ENV\";package.path=\"$LUM_LIBRARY/?.lua;$LUM_LIBRARY/?/init.lua;$HOME/.luarocks/share/lua/5.1/?.lua;$HOME/.luarocks/share/lua/5.1/?/init.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;$HOME/.luarocks/share/lua/5.2/?.lua;$HOME/.luarocks/share/lua/5.2/?/init.lua;/usr/local/share/lua/5.2/?.lua;/usr/local/share/lua/5.2/?/init.lua;$HOME/.luarocks/share/lua/5.3/?.lua;$HOME/.luarocks/share/lua/5.3/?/init.lua;/usr/local/share/lua/5.3/?.lua;/usr/local/share/lua/5.3/?/init.lua;\"..package.path;package.cpath=\"$HOME/.luarocks/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/?.so;$HOME/.luarocks/lib/lua/5.2/?.so;/usr/local/lib/lua/5.2/?.so$HOME/.luarocks/lib/lua/5.3/?.so;/usr/local/lib/lua/5.3/?.so;\"..package.cpath' $LUM_LIBRARY/lum.lua \"\$@\"" > $LUM_BINARY
   echo "> Created a executable on $LUM_BINARY"
   chmod 777 $LUM_BINARY
   echo "> Removing lum folder"
   error_exit "rm -rf $CURRENT_DIRECTORY/lum" "Could't remove repository cloned"
+  echo "> Lua version: $LUA_VERSION"
   echo "> Lum src: $LUM_LIBRARY"
   echo "> Lum executable: $LUM_BINARY"
-  echo "> Lua version: $LUA_VERSION"
-  echo "> Lua version: ${LUM_VERSION:-"master"}"
+  echo "> Lum version: ${LUM_VERSION:-"master"}"
   echo "> Instalation success. You can use lum now. Execute lum command to see help"
 }
 
 clone_repo(){
   echo "> Cloning repository"
-  error_exit "git clone $LUM_REPOSITORY $([ -z "$1" ] && echo "" || echo "--branch $1")" "Couldn't clone lum repository"
+  error_exit "git clone $LUM_REPOSITORY $([ -z "$1" ] && echo "" || echo "--branch v$1")" "Couldn't clone lum repository"
 }
 
 get_latest_version(){
-  LUM_LATEST_VERSION=$(curl --silent "https://api.github.com/repos/desvelao/lum/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^\"]+)".*/\1/')
+  LUM_LATEST_VERSION=$(curl --silent "https://api.github.com/repos/desvelao/lum/tags" | grep -m 1 '"name":' | sed -E 's/.*"v([^\"]+)".*/\1/')
 }
 
 # check_lua_version "lua" || check_lua_version "lua5.1" || check_lua_version "lua5.2" || check_lua_version "lua5.3"
@@ -84,12 +83,12 @@ elif [ "$1" = "install" ] ; then # get specified version or latest
   get_latest_version
   install ${2:-"$LUM_LATEST_VERSION"}
 
-elif [ "$1" = "update" ] ; then # get specified version or latest
+elif [ "$1" = "update" ] ; then # update from version
   CURRENT_LUM_VERSION=$2
   get_latest_version
   echo "Current version: $CURRENT_LUM_VERSION"
   echo "Latest version: $LUM_LATEST_VERSION"
-  if [ "$CURRENT_LUM_VERSION" < "$LUM_LATEST_VERSION" ] ; then
+  if [ "$CURRENT_LUM_VERSION" \< "$LUM_LATEST_VERSION" ] ; then
     sleep 5
     install "$LUM_LATEST_VERSION"
     echo "Updated to $LUM_LATEST_VERSION"

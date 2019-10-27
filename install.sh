@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 error_exit(){
   echo $1
   $1 || {

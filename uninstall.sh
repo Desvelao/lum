@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 echo "Unistalling lum"
 LUM_BINARY="/usr/bin/lum"
 LUM_LIBRARY="/usr/share/lum"

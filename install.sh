@@ -23,7 +23,8 @@ check_lua_version(){
 
 install(){
   echo "Detected Lua version: $LUA_VERSION"
-  clone_repo $1
+  LUM_VERSION="$1"
+  clone_repo $LUM_VERSION
   echo "> Installing lum"
   rm -rf $LUM_LIBRARY || true # Remove last lum instalation
   error_exit "cp -r lum/lum $LUM_LIBRARY" "Couldn't copy lum src to $LUM_LIBRARY"
@@ -44,6 +45,7 @@ install(){
   echo "> Lum src: $LUM_LIBRARY"
   echo "> Lum executable: $LUM_BINARY"
   echo "> Lua version: $LUA_VERSION"
+  echo "> Lua version: ${LUM_VERSION:-"master"}"
   echo "> Instalation success. You can use lum now. Execute lum command to see help"
 }
 
@@ -87,8 +89,6 @@ elif [ "$1" = "update" ] ; then # get specified version or latest
   get_latest_version
   echo "Current version: $CURRENT_LUM_VERSION"
   echo "Latest version: $LUM_LATEST_VERSION"
-  CURRENT_LUM_VERSION="0.2.0"
-  LUM_LATEST_VERSION="0.1.0.1"
   if [ "$CURRENT_LUM_VERSION" < "$LUM_LATEST_VERSION" ] ; then
     # install "$LUM_LATEST_VERSION"
     echo "Updated to $LUM_LATEST_VERSION"

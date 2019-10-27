@@ -54,7 +54,7 @@ clone_repo(){
 }
 
 get_latest_version(){
-  LUM_LATEST_VERSION=$(curl --silent "https://api.github.com/repos/desvelao/lum/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^\"]+)".*/\1/')
+  LUM_LATEST_VERSION=$(curl --silent "https://api.github.com/repos/desvelao/lum/releases/latest" | grep '"name":' | sed -E 's/.*"([^\"]+)".*/\1/')
 }
 
 # check_lua_version "lua" || check_lua_version "lua5.1" || check_lua_version "lua5.2" || check_lua_version "lua5.3"

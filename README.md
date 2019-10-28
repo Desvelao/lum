@@ -83,3 +83,13 @@ Echoing this with lum run my_script
 $ lum run function_script
 Hi from a function script
 ```
+
+# User configuration
+You can add global commands and scripts to builtin.
+
+Under `/home/<USERNAME>/.lum, lum load:
+
+- user scripts: `lum_run.lua`
+- user commands: `/commands` (folder that contains [lummander commands](https://github.com/Desvelao/lummander#command-file) `.lua`)
+
+Note: `package.path` is modified to load only these files. If you need require other files, do it inside the command action function or scripts as functions

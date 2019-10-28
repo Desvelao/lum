@@ -44,12 +44,12 @@ function lum.methods.print(message)
     print(lum.chalk.yellow(message))
 end
 
-function lum.methods.get_home()
+function lum.methods.user_home()
     return lum:execute_silent("echo ${HOME}"):gsub("\n","")
 end
 
 function lum.methods.lum_home()
-    return lum.methods.get_home() .. "/.lum"
+    return lum.methods.user_home() .. "/.lum"
 end
 
 function lum.methods.ordered_pairs (t)
@@ -70,5 +70,34 @@ function lum.read(message)
     return io.read("*l")
 end
 
-lum:commands_dir("commands")
+function lum.methods.commands_dir_user(absolute_path)
+    local fstring = require("f.string")
+    local original_path = package.path
+    package.path = absolute_path .. '/?.lua;'
+    local separator = package.config:sub(1,1) -- / or \\ to know OS
+    local base_directory = absolute_path
+    lum.pcall(function()
+        for filename,i in lfs.dir(base_directory) do
+            if(fstring.ends_with(filename, ".lua"))then
+                local file = filename:sub(1,-5)
+                lum.pcall(function()
+                    local data = require(file)
+                    data.file = file:gsub("%.","/")
+                    lum:command(data.command, data.description, data)
+                    package.loaded[file] = nil
+                end):fail(function(err)
+                    lum:error("Command adding from file: " .. file:gsub("%.","/") .. "\n".. err)
+                end)
+            end
+        end
+    end):pass(function(result)
+        
+    end):fail(function(err)
+        -- lum.theme.error(err)
+    end)
+    package.path = original_path
+    return lum
+end
+
+lum:commands_dir("commands").methods.commands_dir_user(lum.methods.lum_home() .. '/commands')
     :parse(arg)

@@ -1,5 +1,5 @@
 return {
-    command = "uninstall",
+    command = "--uninstall",
     description = "Uninstall lum",
     action = function(parsed, command, lum)
         lum:execute('sudo sh /usr/share/lum/uninstall.sh', print)
